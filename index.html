@@ -1,156 +1,324 @@
-<!DOCTYPE html>
+ <DOCTYPE! html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NHADIDAS DATA BUNDLE BASE</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NHADIDAS DATA | Best Rates & Instant Delivery</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f5f5;
-      color: #222;
+    :root {
+      --primary: #ffcc00; /* MTN Yellow-ish / Brand Color */
+      --secondary: #000;
+      --accent: #25D366; /* WhatsApp Green */
+      --bg: #f4f6f8;
+      --card-bg: #ffffff;
+      --text: #333;
     }
 
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+    body { margin: 0; background: var(--bg); color: var(--text); padding-bottom: 60px; }
+
+    /* --- HEADER --- */
     header {
-      background: #ffcc00;
-      color: #000;
-      padding: 15px 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 1.8rem;
-    }
-
-    header p {
-      margin: 5px 0 0;
-      font-weight: bold;
-    }
-
-    .container {
+      background: linear-gradient(135deg, #000 0%, #333 100%);
+      color: #fff;
       padding: 20px;
-      max-width: 1100px;
-      margin: auto;
+      text-align: center;
+      border-bottom: 4px solid var(--primary);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
-    .networks {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 15px;
-    }
+    header h1 { margin: 0; font-size: 1.5rem; letter-spacing: 1px; }
+    header span { color: var(--primary); font-weight: 800; }
+    header p { margin: 5px 0 0; font-size: 0.85rem; opacity: 0.8; }
 
-    .card {
+    /* --- CONTAINER --- */
+    .container { max-width: 600px; margin: 0 auto; padding: 15px; }
+
+    /* --- REFERRAL CARD (New Feature) --- */
+    .referral-card {
       background: #fff;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      border: 1px solid #e0e0e0;
+      text-align: center;
     }
-
-    .card h3 {
-      margin-top: 0;
-      color: #ffcc00;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-
-    table th,
-    table td {
-      border-bottom: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
-    }
-
-    table th {
+    .referral-header { font-weight: bold; color: #555; margin-bottom: 10px; display: block; }
+    .ref-link-box {
       background: #f0f0f0;
-    }
-
-    .btn {
-      display: block;
-      margin-top: 12px;
       padding: 10px;
-      text-align: center;
-      background: #25D366;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-
-    .btn:hover {
-      opacity: 0.9;
-    }
-
-    footer {
-      background: #222;
-      color: #fff;
-      text-align: center;
-      padding: 15px;
-      margin-top: 30px;
+      border-radius: 6px;
+      font-family: monospace;
       font-size: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px dashed #ccc;
     }
+    .copy-btn {
+      background: var(--secondary);
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.75rem;
+    }
+
+    /* --- NETWORK SELECTOR --- */
+    .network-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+    .tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      background: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      border: 2px solid transparent;
+      transition: 0.3s;
+      opacity: 0.6;
+    }
+    .tab.active { opacity: 1; border-color: var(--primary); transform: translateY(-2px); }
+    
+    /* Network Specific Colors for Active Tabs */
+    .tab[data-net="mtn"].active { border-color: #ffcc00; color: #d4a000; }
+    .tab[data-net="telecel"].active { border-color: #e60000; color: #e60000; }
+    .tab[data-net="at"].active { border-color: #0000ff; color: #0000ff; }
+
+    /* --- ORDER FORM --- */
+    .order-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
+
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
+    
+    select, input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #eee;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+    select:focus, input:focus { outline: none; border-color: var(--primary); }
+
+    .price-display {
+      text-align: center;
+      margin: 20px 0;
+      padding: 15px;
+      background: #fffbe6;
+      border-radius: 8px;
+      border: 1px solid #ffeb99;
+    }
+    .price-display h2 { margin: 0; color: #000; }
+    .price-display small { color: #666; }
+
+    /* --- BUTTONS --- */
+    .btn-buy {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background: var(--secondary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-buy:hover { background: #333; }
+    
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: white;
+      padding: 15px;
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      font-size: 24px;
+      text-decoration: none;
+      z-index: 100;
+    }
+
+    footer { text-align: center; margin-top: 30px; font-size: 0.8rem; color: #888; }
+
+    /* Hide elements */
+    .hidden { display: none; }
   </style>
 </head>
-
 <body>
 
   <header>
-    <h1>NHADIDAS DATA BUNDLE BASE</h1>
-    <p>Fast • Affordable • Reliable Data Bundles</p>
+    <h1>NHADIDAS <span>DATA</span></h1>
+    <p>Fast • Affordable • Non-Expiry</p>
   </header>
 
   <div class="container">
-
-    <div class="networks">
-
-      <!-- MTN -->
-      <div class="card">
-        <h3>MTN Data</h3>
-        <table>
-          <tr><th>Data</th><th>Price (GH₵)</th></tr>
-          <tr><td>1GB</td><td>—</td></tr>
-          <tr><td>2GB</td><td>—</td></tr>
-          <tr><td>5GB</td><td>—</td></tr>
-        </table>
-        <a class="btn" href="https://wa.me/233549399614">Order on WhatsApp</a>
+    
+    <div class="referral-card">
+      <span class="referral-header"><i class="fas fa-gift"></i> Refer & Earn Free Data</span>
+      <div class="ref-link-box">
+        <span id="refLink">cheapdata.shop/ref/nhadidas-123</span>
+        <button class="copy-btn" onclick="copyRef()">Copy</button>
       </div>
-
-      <!-- AirtelTigo -->
-      <div class="card">
-        <h3>AirtelTigo Data</h3>
-        <table>
-          <tr><th>Data</th><th>Price (GH₵)</th></tr>
-          <tr><td>1GB</td><td>—</td></tr>
-          <tr><td>3GB</td><td>—</td></tr>
-          <tr><td>5GB</td><td>—</td></tr>
-        </table>
-        <a class="btn" href="https://wa.me/233549399614">Order on WhatsApp</a>
-      </div>
-
-      <!-- Telecel -->
-      <div class="card">
-        <h3>Telecel Data</h3>
-        <table>
-          <tr><th>Data</th><th>Price (GH₵)</th></tr>
-          <tr><td>1GB</td><td>—</td></tr>
-          <tr><td>2GB</td><td>—</td></tr>
-          <tr><td>4GB</td><td>—</td></tr>
-        </table>
-        <a class="btn" href="https://wa.me/233549399614">Order on WhatsApp</a>
-      </div>
-
+      <p style="font-size: 0.8rem; margin: 8px 0 0; color: #666;">Get 500MB for every 5 friends who buy!</p>
     </div>
+
+    <div class="network-tabs">
+      <div class="tab active" data-net="mtn" onclick="selectNetwork('mtn')">
+        <i class="fas fa-signal"></i> MTN
+      </div>
+      <div class="tab" data-net="telecel" onclick="selectNetwork('telecel')">
+        <i class="fas fa-globe"></i> Telecel
+      </div>
+      <div class="tab" data-net="at" onclick="selectNetwork('at')">
+        <i class="fas fa-broadcast-tower"></i> AT
+      </div>
+    </div>
+
+    <div class="order-card">
+      <div class="form-group">
+        <label>Select Bundle</label>
+        <select id="bundleSelect" onchange="updatePrice()">
+          </select>
+      </div>
+
+      <div class="form-group">
+        <label>Enter Phone Number</label>
+        <input type="tel" id="phoneNumber" placeholder="024 XXX XXXX" maxlength="10">
+      </div>
+
+      <div class="price-display">
+        <small>You pay:</small>
+        <h2 id="priceTag">GH₵ 0.00</h2>
+      </div>
+
+      <button class="btn-buy" onclick="processOrder()">
+        <i class="fab fa-whatsapp"></i> Buy Bundle Now
+      </button>
+    </div>
+
   </div>
 
   <footer>
-    © 2026 NHADIDAS DATA BUNDLE BASE • All Rights Reserved
+    <p>&copy; 2026 Nhadidas Data Services. <br> Powered by CheapData Template.</p>
   </footer>
+
+  <a href="https://wa.me/233XXXXXXXXX" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+
+  <script>
+    // --- CONFIGURATION ---
+    // REPLACE THIS with your actual WhatsApp number (e.g., 233541234567)
+    const SELLER_NUMBER = "233549399614"; 
+    
+    const bundles = {
+      mtn: [
+        { name: "1GB Non-Expiry", price: 6.00 },
+        { name: "2GB Non-Expiry", price: 12.00 },
+        { name: "5GB Non-Expiry", price: 30.00 },
+        { name: "10GB Non-Expiry", price: 58.00 }
+      ],
+      telecel: [
+        { name: "1.5GB Validity", price: 5.00 },
+        { name: "3GB Validity", price: 10.00 },
+        { name: "10GB Validity", price: 30.00 }
+      ],
+      at: [
+        { name: "BigTime 2GB", price: 5.00 },
+        { name: "BigTime 5GB", price: 11.00 },
+        { name: "BigTime 10GB", price: 20.00 }
+      ]
+    };
+
+    let currentNetwork = 'mtn';
+
+    // Initialize
+    function init() {
+      populateBundles();
+      updatePrice();
+    }
+
+    // Switch Network Tabs
+    function selectNetwork(net) {
+      currentNetwork = net;
+      
+      // Update UI Tabs
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelector(`.tab[data-net="${net}"]`).classList.add('active');
+
+      populateBundles();
+      updatePrice();
+    }
+
+    // Populate Select Options
+    function populateBundles() {
+      const select = document.getElementById('bundleSelect');
+      select.innerHTML = ""; // Clear existing
+      
+      bundles[currentNetwork].forEach((b, index) => {
+        const opt = document.createElement('option');
+        opt.value = index;
+        opt.innerText = b.name;
+        select.appendChild(opt);
+      });
+    }
+
+    // Update Price Display
+    function updatePrice() {
+      const select = document.getElementById('bundleSelect');
+      const selectedIndex = select.value;
+      const price = bundles[currentNetwork][selectedIndex].price;
+      
+      document.getElementById('priceTag').innerText = `GH₵ ${price.toFixed(2)}`;
+    }
+
+    // Copy Referral Link
+    function copyRef() {
+      const linkText = document.getElementById('refLink').innerText;
+      navigator.clipboard.writeText(linkText);
+      alert("Referral link copied! Share it to earn data.");
+    }
+
+    // Process Order (Redirect to WhatsApp)
+    function processOrder() {
+      const phone = document.getElementById('phoneNumber').value;
+      const select = document.getElementById('bundleSelect');
+      const bundleName = bundles[currentNetwork][select.value].name;
+      const price = bundles[currentNetwork][select.value].price;
+
+      if (phone.length < 9) {
+        alert("Please enter a valid phone number");
+        return;
+      }
+
+      const message = `Hello NHADIDAS, I want to buy:%0A%0A` +
+                      `📶 *Network:* ${currentNetwork.toUpperCase()}%0A` +
+                      `📦 *Bundle:* ${bundleName}%0A` +
+                      `📱 *Number:* ${phone}%0A` +
+                      `💰 *Price:* GH₵${price}%0A%0A` +
+                      `Please confirm payment details.`;
+
+      window.open(`https://wa.me/${SELLER_NUMBER}?text=${message}`, '_blank');
+    }
+
+    // Run Init
+    window.onload = init;
+  </script>
 
 </body>
 </html>
