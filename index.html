@@ -12,12 +12,12 @@ header{background:#000;color:#fff;padding:15px;text-align:center}
 button{padding:12px;border:none;border-radius:8px;font-weight:bold}
 .btn{background:#000;color:#fff;width:100%}
 input,select{width:100%;padding:10px;margin:5px 0}
-.networks{display:flex;gap:5px}
+.networks{display:flex;gap:5px;margin-bottom:10px}
 .net{flex:1;padding:10px;background:#fff;text-align:center;border-radius:6px;cursor:pointer;opacity:.5}
 .net.active{opacity:1;border:2px solid #ffcc00}
 .price{background:#fffbe6;padding:10px;text-align:center;margin:10px 0;border-radius:6px}
 .admin{display:none}
-table{width:100%;border-collapse:collapse;font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
 td,th{border:1px solid #ccc;padding:6px}
 th{background:#eee}
 .float-wa{
@@ -84,6 +84,22 @@ Clear Orders
 
 <a class="float-wa" id="floatWA">💬</a>
 
+<!-- HIDDEN ADMIN BUTTON -->
+<div id="adminBtn" style="
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  width: 30px;
+  height: 30px;
+  background: #ffcc00;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 9999;
+" title="Admin Access">⚙️</div>
+
 <script>
 /* ================= CONFIG ================= */
 const MY_WHATSAPP = "233549399614";   // 0549399614
@@ -116,7 +132,6 @@ if(params.get("ref")){
 window.onload=()=>{
   document.getElementById("floatWA").href=`https://wa.me/${MY_WHATSAPP}`;
   loadBundles();
-  adminCheck();
 };
 
 /* NETWORK SWITCH */
@@ -184,18 +199,17 @@ Please attach payment screenshot`;
   window.open(`https://wa.me/${MY_WHATSAPP}?text=${encodeURIComponent(msg)}`);
 }
 
-/* ADMIN */
-function adminCheck(){
-  if(location.hash==="#admin"){
-    const pin=prompt("Enter Admin PIN");
-    if(pin===ADMIN_PIN){
-      document.querySelector(".user").style.display="none";
-      document.querySelector(".admin").style.display="block";
-      loadOrders();
-    } else alert("Access denied");
-  }
-}
+/* ADMIN BUTTON */
+document.getElementById("adminBtn").onclick = function() {
+  const pin = prompt("Enter Admin PIN:");
+  if(pin === ADMIN_PIN){
+    document.querySelector(".user").style.display = "none";
+    document.querySelector(".admin").style.display = "block";
+    loadOrders();
+  } else alert("Access Denied!");
+};
 
+/* ADMIN FUNCTIONS */
 function loadOrders(){
   const list=document.getElementById("orderList");
   const orders=JSON.parse(localStorage.getItem("orders")||"[]");
