@@ -1,544 +1,156 @@
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f4f6f8; margin:0; padding-bottom: 50px; }
-header, footer { background:#fff; padding:15px 20px; box-shadow:0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center;}
-header h1 { margin:0; font-size: 1.2rem; color: #004d40; }
-nav a { margin-left:15px; text-decoration:none; color:#333; font-weight: 500; }
-nav a:hover { color: #ffcc00; }
-
-/* Grid & Cards */
-.product-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; padding:20px; }
-.network-card { padding:20px; border-radius:12px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.05); text-align:center; transition: transform 0.2s; }
-.network-card:hover { transform: translateY(-5px); }
-.network-card img { width:60px; height: 60px; object-fit: contain; margin-bottom:10px; }
-.network-card.suspended-item { opacity: 0.6; background: #eee; border: 1px solid #ccc; }
-
-/* Buttons & Inputs */
-button { padding:10px 15px; border:none; background:#004d40; color: white; border-radius:6px; cursor:pointer; font-weight:bold; }
-button:hover { background:#00695c; }
-button.btn-danger { background: #d32f2f; }
-button.btn-warning { background: #fbc02d; color: #333; }
-input, select { padding:10px; margin:5px 0; border: 1px solid #ddd; border-radius: 5px; width: 100%; box-sizing: border-box; }
-
-/* Tables */
-table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 20px; }
-th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
-th { background: #eee; }
-
-/* Utilities */
-.container { max-width: 800px; margin: 0 auto; padding: 20px; }
-.badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; }
-.badge-success { background: #e8f5e9; color: #2e7d32; }
-.badge-pending { background: #fff3e0; color: #ef6c00; }
-.copy-number { cursor: pointer; color: #007bff; text-decoration: underline; }
-// js/data-init.js
-function initData() {
-    if (!localStorage.getItem('products')) {
-        const products = [
-            {id:1, name:"MTN 1GB", network:"MTN", price:5, validity:"7 Days", logo:"https://upload.wikimedia.org/wikipedia/commons/9/93/New-mtn-logo.jpg", suspended:false},
-            {id:2, name:"AirtelTigo 1GB", network:"AirtelTigo", price:5, validity:"No Expiry", logo:"https://netstorage-yen.akamaized.net/images/0fgjhs6ro011d8m96.jpg", suspended:false},
-            {id:3, name:"Telecel 2GB", network:"Telecel", price:10, validity:"7 Days", logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Vodafone_2017_logotype.svg/2560px-Vodafone_2017_logotype.svg.png", suspended:false}
-        ];
-        localStorage.setItem('products', JSON.stringify(products));
-    }
-
-    if (!localStorage.getItem('users')) {
-        const users = [
-            // Admin Account
-            {id: 1, name: "Admin User", phone: "0549399614", password: "admin", role: "admin", balance: 1000, suspended: false},
-            // Customer Account
-            {id: 2, name: "Test Customer", phone: "0500000000", password: "123", role: "user", balance: 50, suspended: false}
-        ];
-        localStorage.setItem('users', JSON.stringify(users));
-    }
-}
-initData();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - DataMart</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NHADIDAS DATA BUNDLE BASE</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    header {
+      background: #ffcc00;
+      color: #000;
+      padding: 15px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .networks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 15px;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #ffcc00;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table th,
+    table td {
+      border-bottom: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    table th {
+      background: #f0f0f0;
+    }
+
+    .btn {
+      display: block;
+      margin-top: 12px;
+      padding: 10px;
+      text-align: center;
+      background: #25D366;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    footer {
+      background: #222;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
-<body style="display:flex; justify-content:center; align-items:center; height:100vh;">
-    
-    <form id="login-form" style="width:300px; background:#fff; padding:30px; border-radius:10px; box-shadow:0 10px 20px rgba(0,0,0,0.1);">
-        <h2 style="text-align:center;">DataMart Login</h2>
-        <label>Phone Number</label>
-        <input type="text" id="login-phone" placeholder="054..." required>
-        <label>Password</label>
-        <input type="password" id="login-password" required>
-        <button type="submit" style="width:100%; margin-top:10px;">Login</button>
-        <p style="text-align:center; font-size:0.9rem; margin-top:15px; color:#666;">
-            Demo User: 0500000000 / 123<br>
-            Demo Admin: 0549399614 / admin
-        </p>
-    </form>
 
-    <script src="js/data-init.js"></script>
-    <script>
-        document.getElementById('login-form').addEventListener('submit', e => {
-            e.preventDefault();
-            const phone = document.getElementById('login-phone').value;
-            const password = document.getElementById('login-password').value;
-
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            const user = users.find(u => u.phone === phone && u.password === password);
-
-            if (!user) {
-                alert('Invalid Credentials');
-                return;
-            }
-            if (user.suspended) {
-                alert('Account Suspended. Contact Support.');
-                return;
-            }
-
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            
-            if(user.role === 'admin') {
-                window.location.href = 'admin.html';
-            } else {
-                window.location.href = 'index.html';
-            }
-        });
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataMart - Buy Data</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
 <body>
-    <header>
-        <h1>DataMart</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
-            <a href="#" onclick="logout()">Logout</a>
-        </nav>
-    </header>
 
-    <div class="container">
-        <div style="background: #e0f2f1; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-            <h3>Welcome, <span id="user-name">Guest</span></h3>
-            <p>Your Wallet Balance: <strong>₵<span id="user-balance">0.00</span></strong></p>
-        </div>
+  <header>
+    <h1>NHADIDAS DATA BUNDLE BASE</h1>
+    <p>Fast • Affordable • Reliable Data Bundles</p>
+  </header>
 
-        <h2>Available Bundles</h2>
-        <div class="product-grid" id="product-list"></div>
+  <div class="container">
+
+    <div class="networks">
+
+      <!-- MTN -->
+      <div class="card">
+        <h3>MTN Data</h3>
+        <table>
+          <tr><th>Data</th><th>Price (GH₵)</th></tr>
+          <tr><td>1GB</td><td>—</td></tr>
+          <tr><td>2GB</td><td>—</td></tr>
+          <tr><td>5GB</td><td>—</td></tr>
+        </table>
+        <a class="btn" href="https://wa.me/233549399614">Order on WhatsApp</a>
+      </div>
+
+      <!-- AirtelTigo -->
+      <div class="card">
+        <h3>AirtelTigo Data</h3>
+        <table>
+          <tr><th>Data</th><th>Price (GH₵)</th></tr>
+          <tr><td>1GB</td><td>—</td></tr>
+          <tr><td>3GB</td><td>—</td></tr>
+          <tr><td>5GB</td><td>—</td></tr>
+        </table>
+        <a class="btn" href="https://wa.me/233549399614">Order on WhatsApp</a>
+      </div>
+
+      <!-- Telecel -->
+      <div class="card">
+        <h3>Telecel Data</h3>
+        <table>
+          <tr><th>Data</th><th>Price (GH₵)</th></tr>
+          <tr><td>1GB</td><td>—</td></tr>
+          <tr><td>2GB</td><td>—</td></tr>
+          <tr><td>4GB</td><td>—</td></tr>
+        </table>
+        <a class="btn" href="https://wa.me/233549399614">Order on WhatsApp</a>
+      </div>
+
     </div>
+  </div>
 
-    <script src="js/data-init.js"></script>
-    <script src="js/main.js"></script>
+  <footer>
+    © 2026 NHADIDAS DATA BUNDLE BASE • All Rights Reserved
+  </footer>
+
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart - DataMart</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <header>
-        <h1>DataMart</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="cart.html">Cart</a>
-        </nav>
-    </header>
-
-    <div class="container">
-        <h2>Your Cart</h2>
-        <div id="cart-items"></div>
-        <h3 style="text-align:right; margin-top:20px;" id="total-price"></h3>
-
-        <hr>
-
-        <div style="background:#fff; padding:20px; border-radius:8px;">
-            <h3>Payment Instructions</h3>
-            <p><strong>Step 1:</strong> Send Total Amount to one of these numbers:</p>
-            <ul>
-                <li>MTN: <b class="copy-number" data-number="0549399614">0549399614</b> (Marian Korneh)</li>
-                <li>Telecel: <b class="copy-number" data-number="0509567822">0509567822</b> (Susana Nkansah Acquah)</li>
-            </ul>
-            <p><strong>Step 2:</strong> Click Checkout below to place your order. The admin will verify your payment and deduct from your wallet.</p>
-            
-            <button id="checkout-btn" style="width:100%; font-size:1.2rem;">Checkout Now</button>
-            <p id="reference-display" style="text-align:center; margin-top:15px; font-weight:bold; color:green;"></p>
-        </div>
-    </div>
-
-    <script src="js/data-init.js"></script>
-    <script src="js/main.js"></script>
-</body>
-</html>
-const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-const products = JSON.parse(localStorage.getItem('products')) || [];
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-// Security Check
-if (!currentUser && !window.location.href.includes('login.html')) {
-    window.location.href = 'login.html';
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    updateUI();
-    renderProducts();
-    renderCart();
-});
-
-function updateUI() {
-    if (document.getElementById('user-name') && currentUser) {
-        // Refresh user data from storage to get latest balance
-        const users = JSON.parse(localStorage.getItem('users'));
-        const freshUser = users.find(u => u.id === currentUser.id);
-        
-        document.getElementById('user-name').innerText = freshUser.name;
-        document.getElementById('user-balance').innerText = freshUser.balance.toFixed(2);
-        
-        // Update local session to match
-        localStorage.setItem('currentUser', JSON.stringify(freshUser));
-    }
-    const cartCount = document.getElementById('cart-count');
-    if(cartCount) cartCount.innerText = cart.length;
-}
-
-function renderProducts() {
-    const grid = document.getElementById('product-list');
-    if (!grid) return;
-
-    grid.innerHTML = '';
-    products.filter(p => !p.suspended).forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'network-card';
-        card.innerHTML = `
-            <img src="${p.logo}" alt="${p.network}">
-            <h3>${p.name}</h3>
-            <p>₵${p.price.toFixed(2)} - ${p.validity}</p>
-            <button onclick="addToCart(${p.id})">Add to Cart</button>
-        `;
-        grid.appendChild(card);
-    });
-}
-
-function addToCart(id) {
-    cart.push(id);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    alert('Added to cart');
-    updateUI();
-}
-
-function renderCart() {
-    const container = document.getElementById('cart-items');
-    const totalEl = document.getElementById('total-price');
-    if (!container) return;
-
-    if (cart.length === 0) {
-        container.innerHTML = '<p>Cart is empty.</p>';
-        totalEl.innerHTML = '';
-        return;
-    }
-
-    let total = 0;
-    container.innerHTML = '';
-    cart.forEach((id, index) => {
-        const p = products.find(pr => pr.id == id);
-        if (p) {
-            total += p.price;
-            const row = document.createElement('div');
-            row.style = "display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #eee;";
-            row.innerHTML = `
-                <span>${p.name}</span>
-                <span>₵${p.price.toFixed(2)} <button onclick="removeFromCart(${index})" style="background:#d32f2f; margin-left:10px; padding:5px 10px;">X</button></span>
-            `;
-            container.appendChild(row);
-        }
-    });
-    totalEl.innerHTML = `Total to Pay: ₵${total.toFixed(2)}`;
-}
-
-function removeFromCart(index) {
-    cart.splice(index, 1);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    renderCart();
-    updateUI();
-}
-
-// Copy Number Logic
-document.addEventListener('click', e => {
-    if (e.target.classList.contains('copy-number')) {
-        const num = e.target.dataset.number;
-        navigator.clipboard.writeText(num).then(() => alert('Number copied!'));
-    }
-});
-
-function logout() {
-    localStorage.removeItem('currentUser');
-    window.location.href = 'login.html';
-}
-
-// Checkout Logic
-const checkoutBtn = document.getElementById('checkout-btn');
-if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', () => {
-        if (cart.length === 0) return alert('Cart is empty');
-
-        let orders = JSON.parse(localStorage.getItem('orders')) || [];
-        
-        // Calculate Total
-        const totalAmount = cart.reduce((sum, id) => {
-            const p = products.find(pr => pr.id === id);
-            return sum + (p ? p.price : 0);
-        }, 0);
-
-        const reference = 'REF-' + Math.floor(100000 + Math.random() * 900000);
-
-        orders.push({
-            reference,
-            userId: currentUser.id,
-            userName: currentUser.name,
-            items: [...cart], // copy of cart IDs
-            total: totalAmount,
-            status: 'Pending', // Pending, Verified
-            date: new Date().toLocaleString()
-        });
-
-        localStorage.setItem('orders', JSON.stringify(orders));
-        
-        // Clear Cart
-        cart = [];
-        localStorage.setItem('cart', JSON.stringify(cart));
-        renderCart();
-        updateUI();
-
-        document.getElementById('reference-display').innerText = `Order Placed! Your Reference: ${reference}`;
-        alert('Order placed successfully! Admin will verify.');
-    });
-}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <header>
-        <h1>Admin Dashboard</h1>
-        <nav>
-            <a href="#" onclick="showSection('orders')">Orders</a>
-            <a href="#" onclick="showSection('products')">Products</a>
-            <a href="#" onclick="showSection('users')">Users</a>
-            <a href="index.html">View Store</a>
-            <a href="login.html">Logout</a>
-        </nav>
-    </header>
-
-    <div class="container" style="max-width:1000px;">
-        
-        <section id="sec-orders">
-            <h2>Manage Orders</h2>
-            <table id="orders-table">
-                <thead>
-                    <tr>
-                        <th>Ref</th>
-                        <th>User</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </section>
-
-        <section id="sec-products" style="display:none;">
-            <h2>Manage Products</h2>
-            <div style="background:#fff; padding:15px; margin-bottom:15px;">
-                <h4>Add New Product</h4>
-                <input type="text" id="p-name" placeholder="Name (e.g. MTN 1GB)">
-                <input type="number" id="p-price" placeholder="Price">
-                <input type="text" id="p-logo" placeholder="Logo URL">
-                <button onclick="addProduct()">Add Product</button>
-            </div>
-            <table id="products-table">
-                <thead><tr><th>Name</th><th>Price</th><th>Action</th></tr></thead>
-                <tbody></tbody>
-            </table>
-        </section>
-
-        <section id="sec-users" style="display:none;">
-            <h2>Manage Users</h2>
-            <table id="users-table">
-                <thead><tr><th>Name</th><th>Phone</th><th>Balance</th><th>Action</th></tr></thead>
-                <tbody></tbody>
-            </table>
-        </section>
-    </div>
-
-    <script src="js/data-init.js"></script>
-    <script src="js/admin.js"></script>
-</body>
-</html>
-// Load Data
-let orders = JSON.parse(localStorage.getItem('orders')) || [];
-let products = JSON.parse(localStorage.getItem('products')) || [];
-let users = JSON.parse(localStorage.getItem('users')) || [];
-
-function saveData() {
-    localStorage.setItem('orders', JSON.stringify(orders));
-    localStorage.setItem('products', JSON.stringify(products));
-    localStorage.setItem('users', JSON.stringify(users));
-    renderAll();
-}
-
-function showSection(id) {
-    document.getElementById('sec-orders').style.display = 'none';
-    document.getElementById('sec-products').style.display = 'none';
-    document.getElementById('sec-users').style.display = 'none';
-    document.getElementById('sec-' + id).style.display = 'block';
-}
-
-function renderAll() {
-    renderOrders();
-    renderProducts();
-    renderUsers();
-}
-
-// --- ORDERS LOGIC ---
-function renderOrders() {
-    const tbody = document.querySelector('#orders-table tbody');
-    tbody.innerHTML = '';
-    orders.forEach(o => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${o.reference}</td>
-            <td>${o.userName}</td>
-            <td>₵${o.total}</td>
-            <td><span class="badge ${o.status === 'Verified' ? 'badge-success' : 'badge-pending'}">${o.status}</span></td>
-            <td>
-                ${o.status === 'Pending' ? `<button onclick="verifyOrder('${o.reference}')">Verify & Deduct</button>` : ''}
-            </td>
-        `;
-        tbody.appendChild(row);
-    });
-}
-
-function verifyOrder(ref) {
-    const order = orders.find(o => o.reference === ref);
-    const userIndex = users.findIndex(u => u.id === order.userId);
-    
-    if (userIndex === -1) return alert('User not found');
-
-    const user = users[userIndex];
-
-    if (user.balance >= order.total) {
-        // Deduct Balance
-        user.balance -= order.total;
-        users[userIndex] = user;
-        
-        // Update Order
-        order.status = 'Verified';
-        
-        saveData();
-        alert(`Order Verified! ₵${order.total} deducted from ${user.name}. New Balance: ₵${user.balance}`);
-    } else {
-        alert(`User ${user.name} has insufficient balance (₵${user.balance}) for this order.`);
-    }
-}
-
-// --- PRODUCTS LOGIC ---
-function renderProducts() {
-    const tbody = document.querySelector('#products-table tbody');
-    tbody.innerHTML = '';
-    products.forEach((p, index) => {
-        const row = document.createElement('tr');
-        if(p.suspended) row.style.opacity = "0.5";
-        row.innerHTML = `
-            <td>${p.name}</td>
-            <td>₵${p.price}</td>
-            <td>
-                <button class="btn-warning" onclick="toggleSuspendProduct(${index})">${p.suspended ? 'Unsuspend' : 'Suspend'}</button>
-                <button class="btn-danger" onclick="deleteProduct(${index})">Delete</button>
-            </td>
-        `;
-        tbody.appendChild(row);
-    });
-}
-
-function addProduct() {
-    const name = document.getElementById('p-name').value;
-    const price = parseFloat(document.getElementById('p-price').value);
-    const logo = document.getElementById('p-logo').value || "https://placehold.co/100";
-
-    if (!name || !price) return alert('Fill details');
-
-    products.push({
-        id: Date.now(),
-        name,
-        price,
-        logo,
-        suspended: false,
-        validity: "7 Days"
-    });
-    saveData();
-    // Clear inputs
-    document.getElementById('p-name').value = ''; 
-    document.getElementById('p-price').value = '';
-}
-
-function toggleSuspendProduct(index) {
-    products[index].suspended = !products[index].suspended;
-    saveData();
-}
-
-function deleteProduct(index) {
-    if(confirm('Delete this product?')) {
-        products.splice(index, 1);
-        saveData();
-    }
-}
-
-// --- USERS LOGIC ---
-function renderUsers() {
-    const tbody = document.querySelector('#users-table tbody');
-    tbody.innerHTML = '';
-    users.forEach((u, index) => {
-        const row = document.createElement('tr');
-        if(u.suspended) row.style.backgroundColor = "#ffebee";
-        row.innerHTML = `
-            <td>${u.name}</td>
-            <td>${u.phone}</td>
-            <td>₵${u.balance.toFixed(2)}</td>
-            <td>
-                <button onclick="topUpUser(${index})">Top Up</button>
-                <button class="btn-warning" onclick="toggleSuspendUser(${index})">${u.suspended ? 'Unblock' : 'Block'}</button>
-            </td>
-        `;
-        tbody.appendChild(row);
-    });
-}
-
-function topUpUser(index) {
-    const amount = prompt("Enter amount to add to wallet:");
-    if(amount) {
-        users[index].balance += parseFloat(amount);
-        saveData();
-        alert('Balance Updated');
-    }
-}
-
-function toggleSuspendUser(index) {
-    users[index].suspended = !users[index].suspended;
-    saveData();
-}
-
-// Initial Render
-renderAll();
